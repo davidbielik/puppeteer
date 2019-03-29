@@ -1009,6 +1009,17 @@ module.exports.addTests = function({testRunner, expect, headless, Errors, Device
       await page.goto(server.PREFIX + '/title.html');
       expect(await page.title()).toBe('Woof-Woof');
     });
+    
+    it('should throw if the page context is destroyed', async ({page, server}) => {
+      await page.goto(server.PREFIX + '/title.html');
+      let error = null;
+      try {
+        await page.title();
+      } catch (e) {
+        error = e;
+      }
+      expect(error.message).to.be.a('string');
+    });
   });
 
   describe('Page.select', function() {
